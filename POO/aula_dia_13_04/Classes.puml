@@ -1,0 +1,97 @@
+@startuml
+
+class Secretaria {
+  - id: int
+  - nome: string
+  - telefone: string
+  --
+  + agendarConsulta()
+  + cancelarConsulta()
+  + cadastrarPaciente()
+  + cadastrarMedico()
+}
+
+class Paciente {
+  - id: int
+  - nome: string
+  - cpf: string
+  - dataNascimento: date
+  - telefone: string
+  - email: string
+  --
+  + getHistorico()
+}
+
+class Medico {
+  - id: int
+  - nome: string
+  - crm: string
+  - especialidade: string
+  - telefone: string
+  --
+  + verAgenda()
+  + realizarConsulta()
+}
+
+class Agenda {
+  - id: int
+  - medico: Medico
+  - horarios: dict
+  --
+  + buscarDisponivel()
+  + bloquearHorario()
+  + liberarHorario()
+}
+
+class Consulta {
+  - id: int
+  - paciente: Paciente
+  - medico: Medico
+  - dataHora: datetime
+  - status: enum
+  - condicoesPaciente: string
+  - descricao: string
+  --
+  + cancelar()
+  + registrarAtendimento()
+  + gerarReceita()
+}
+
+class Prescricao {
+  - id: int
+  - consulta: Consulta
+  - medicamentos: list
+  - instrucoes: string
+  --
+  + adicionarMedicamento()
+}
+
+class Medicamento {
+  - nome: string
+  - dosagem: string
+  - posologia: string
+}
+
+class Exame {
+  - id: int
+  - consulta: Consulta
+  - tipo: string
+  - descricao: string
+  - resultado: string
+  --
+  + registrarResultado()
+}
+
+Secretaria --> Paciente : cadastra
+Secretaria --> Medico : cadastra
+Secretaria --> Consulta : agenda / cancela
+
+Paciente "1" --> "0..*" Consulta
+Medico "1" --> "0..*" Consulta
+Medico "1" --> "1" Agenda
+
+Consulta "1" --> "0..1" Prescricao
+Consulta "1" --> "0..*" Exame
+Prescricao "1" --> "0..*" Medicamento
+
+@enduml

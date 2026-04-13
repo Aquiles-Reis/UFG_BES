@@ -1,0 +1,34 @@
+@startuml
+
+left to right direction
+
+actor Paciente
+actor Secretaria
+actor Medico
+
+rectangle "Sistema de agendamento" {
+  usecase "Agendar consulta" as UC1
+  usecase "Cancelar consulta" as UC2
+  usecase "Cadastrar paciente" as UC3
+  usecase "Cadastrar médico" as UC4
+  usecase "Realizar consulta" as UC5
+  usecase "Prescrever medicação" as UC6
+  usecase "Solicitar exame" as UC7
+}
+
+Paciente --> UC1
+Paciente --> UC2
+
+Secretaria --> UC1
+Secretaria --> UC2
+Secretaria --> UC3
+Secretaria --> UC4
+
+Medico --> UC5
+Medico --> UC6
+Medico --> UC7
+
+UC5 .> UC6 : <<include>>
+UC5 .> UC7 : <<include>>
+
+@enduml
