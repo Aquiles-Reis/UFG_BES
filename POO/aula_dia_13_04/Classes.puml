@@ -5,6 +5,8 @@ class Secretaria {
   - nome: string
   - telefone: string
   --
+  + verAgenda()
+  + atualizarAgenda()
   + agendarConsulta()
   + cancelarConsulta()
   + cadastrarPaciente()
@@ -36,6 +38,7 @@ class Medico {
 class Agenda {
   - id: int
   - medico: Medico
+  - paciente: Paciente
   - horarios: dict
   --
   + buscarDisponivel()
@@ -55,6 +58,7 @@ class Consulta {
   + cancelar()
   + registrarAtendimento()
   + gerarReceita()
+  + cadastrarExame()
 }
 
 class Prescricao {
@@ -85,13 +89,14 @@ class Exame {
 Secretaria --> Paciente : cadastra
 Secretaria --> Medico : cadastra
 Secretaria --> Consulta : agenda / cancela
+Secretaria --> Agenda : acessa / altera
 
 Paciente "1" --> "0..*" Consulta
 Medico "1" --> "0..*" Consulta
-Medico "1" --> "1" Agenda
+Medico "1" *-- "1" Agenda
 
-Consulta "1" --> "0..1" Prescricao
-Consulta "1" --> "0..*" Exame
-Prescricao "1" --> "0..*" Medicamento
+Consulta "1" o-- "0..1" Prescricao
+Consulta "1" o-- "0..*" Exame
+Prescricao "1" o-- "0..*" Medicamento
 
 @enduml
