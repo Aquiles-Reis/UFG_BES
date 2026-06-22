@@ -1,0 +1,108 @@
+@startuml SistemaAcademiaConceitual
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+hide circle
+
+skinparam class {
+    BackgroundColor #F8FBFE
+    BorderColor #2E75B6
+    ArrowColor #2E75B6
+}
+
+abstract class Pessoa
+
+class Aluno
+class Funcionario
+class Plano
+class Matricula
+class Parcela
+class Pagamento
+class Aula
+class Inscricao
+class LogAcesso
+
+enum Cargo {
+    RECEPCIONISTA
+    LIMPEZA
+    PERSONAL_TRAINER
+    ADMINISTRADOR
+    GESTOR
+}
+
+enum StatusMatricula {
+    ATIVA
+    SUSPENSA
+    ENCERRADA
+}
+
+enum StatusParcela {
+    PAGA
+    PENDENTE
+    VENCIDA
+}
+
+enum StatusAula {
+    ATIVA
+    CANCELADA
+}
+
+enum StatusInscricao {
+    CONFIRMADA
+    CANCELADA
+}
+
+enum FormaPagamento {
+    DINHEIRO
+    CARTAO
+    PIX
+    BOLETO
+}
+
+enum ResultadoAcesso {
+    LIBERADO
+    BLOQUEADO
+}
+
+' =========================
+' HERANÇA
+' =========================
+
+Pessoa <|-- Aluno
+Pessoa <|-- Funcionario
+
+' =========================
+' RELACIONAMENTOS
+' =========================
+
+Funcionario --> Cargo : possui
+
+Aluno "1" o-- "0..*" Matricula : historico
+
+Plano "1" <-- "0..*" Matricula : referencia
+
+Matricula "1" *-- "1..*" Parcela : gera
+
+Parcela "1" --> "0..1" Pagamento : pagamento
+
+Pagamento --> FormaPagamento
+
+Funcionario "1" --> "0..*" Aula : ministra
+
+Aula "1" *-- "0..*" Inscricao : possui
+
+Aluno "1" --> "0..*" Inscricao : realiza
+
+Aluno "1" --> "0..*" LogAcesso : gera
+
+Matricula --> StatusMatricula
+
+Parcela --> StatusParcela
+
+Aula --> StatusAula
+
+Inscricao --> StatusInscricao
+
+LogAcesso --> ResultadoAcesso
+
+@enduml
